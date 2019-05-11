@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- AUTOR: DIEGO RUGUE
--- DATA DE CRIAÇÃO: 10/05/2019
+-- DATA DE CRIACAO: 10/05/2019
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 USE master;
 GO
@@ -10,7 +10,7 @@ USE WebAPIDiego;
 GO
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- CRIAÇÃO DAS TABELAS
+-- CRIACAO DAS TABELAS
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE EstadoCivil
@@ -89,7 +89,7 @@ CREATE TABLE Dependentes
 GO
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- INSERÇÃO DE DADOS DEFAULT
+-- INSERCAO DE DADOS DEFAULT
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO EstadoCivil (Nome) VALUES ('Casado');
@@ -103,7 +103,7 @@ GO
 
 INSERT INTO Parentesco (Nome) VALUES ('Pai');
 GO
-INSERT INTO Parentesco (Nome) VALUES ('Mãe');
+INSERT INTO Parentesco (Nome) VALUES ('Mae');
 GO
 INSERT INTO Parentesco (Nome) VALUES ('Filho');
 GO
@@ -118,7 +118,45 @@ CREATE PROCEDURE GetEstadoCivil
 	@Id INT
 AS
 BEGIN
-	SELECT * FROM EstadoCivil WHERE Id = @Id
+	SELECT * FROM EstadoCivil WHERE Id = @Id;
 END
 
 GO
+
+CREATE PROCEDURE GetEstadosCivis
+AS
+BEGIN
+	SELECT * FROM EstadoCivil;
+END
+
+GO
+
+CREATE PROCEDURE PostEstadoCivil
+	@Nome VARCHAR(20)
+AS
+BEGIN
+	INSERT INTO EstadoCivil(Nome) VALUES (@Nome);
+END
+
+GO
+
+CREATE PROCEDURE PutEstadoCivil
+	@Id INT,
+	@Nome VARCHAR(20)
+AS
+BEGIN
+	UPDATE EstadoCivil
+		SET Nome = @Nome
+	WHERE Id = @Id
+END
+
+GO
+
+CREATE PROCEDURE DeleteEstadoCivil
+	@Id INT
+AS
+BEGIN
+	DELETE FROM EstadoCivil
+	WHERE Id = @Id
+END
+

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Models;
+using WebAPI.Repositories;
 
 namespace WebAPI.Controllers
 {
@@ -15,49 +16,47 @@ namespace WebAPI.Controllers
     [ApiController]
     public class EstadoCivilController : ControllerBase
     {
-        private ApplicationContext contexto;
-        public EstadoCivilController(ApplicationContext context)
+
+        private readonly IEstadoCivilRepository _repository;
+
+        public EstadoCivilController(IEstadoCivilRepository estadoCivil)
         {
-            this.contexto = context;
+            _repository = estadoCivil;
         }
 
         // GET: api/EstadoCivil
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<EstadoCivil> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _repository.GetAll();
         }
 
         // GET: api/EstadoCivil/5
         [HttpGet("{id}")]
-        public List<EstadoCivil> Get(int id)
+        public EstadoCivil Get(int id)
         {
-            using (contexto)
-            {
-                var Id = new SqlParameter("@Id", id);
-                var estadoCivil = contexto.EstadoCivils.
-                    FromSql("EXEC GetEstadoCivil @Id", parameters: Id)
-                    .ToList();
-                return estadoCivil;
-            } 
+            return _repository.Get(id);
         }
 
         // POST: api/EstadoCivil
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] EstadoCivil estadoCivil)
         {
+            _repository.Post(estadoCivil);
         }
 
-        // PUT: api/EstadoCivil/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT: api/EstadoCivil
+        [HttpPut]
+        public void Put([FromBody] EstadoCivil estadoCivil)
         {
+            _repository.Put(estadoCivil);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _repository.Delete(id);
         }
     }
 }

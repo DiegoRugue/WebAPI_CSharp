@@ -8,17 +8,52 @@ using WebAPI.Models;
 
 namespace WebAPI.Repositories
 {
-    public class EstadoCivilRepository
-    {
-        private ApplicationContext contexto;
-        public EstadoCivilRepository(ApplicationContext context)
-        {
-            this.contexto = context;
+    public class EstadoCivilRepository : BaseRepository, IEstadoCivilRepository {
+        public EstadoCivilRepository(ApplicationContext context) : base(context) {
         }
 
-        public void GetEstadoCivil(int id)
-        {
-            
+        public EstadoCivil Get(int id) {
+            using (contexto) {
+                var Id = new SqlParameter("@Id", id);
+                var estadoCivil = contexto.EstadosCivis
+                    .FromSql("EXEC GetEstadoCivil @Id", parameters: Id)
+                    .FirstOrDefault<EstadoCivil>();
+                return estadoCivil;
+            }
+        }
+
+        public List<EstadoCivil> GetAll() {
+            using (contexto) {
+                var estadosCivis = contexto.EstadosCivis
+                    .FromSql("EXEC GetEstadosCivis")
+                    .ToList();
+                return estadosCivis;
+            }
+        }
+
+        public void Post(EstadoCivil estadoCivil) {
+            using (contexto) {
+                var parametro = new SqlParameter("@Nome", estadoCivil.Nome);
+                var novoEstado = contexto.Database
+                    .ExecuteSqlCommand("EXEC PostEstadoCivil @Nome", parametro);  
+            }
+        }
+        public void Put(EstadoCivil estadoCivil) {
+            using (contexto) {
+                var parametros = new List<SqlParameter>();
+                parametros.Add(new SqlParameter("@Id", estadoCivil.Id));
+                parametros.Add(new SqlParameter("@Nome", estadoCivil.Nome));
+
+                var atualizaEstado = contexto.Database
+                    .ExecuteSqlCommand("EXEC PutEstadoCivil @Id, @Nome", parametros);
+            }
+        }
+        public void Delete(int id) {
+            using (contexto) {
+                var pId = new SqlParameter("@Id", id);
+                var delEstado = contexto.Database
+                    .ExecuteSqlCommand("EXEC DeleteEstadoCivil @Id", pId);
+            }
         }
     }
 }

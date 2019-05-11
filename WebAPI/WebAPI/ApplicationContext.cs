@@ -14,6 +14,6 @@ namespace WebAPI
         {
         }
 
-        public DbSet<EstadoCivil> EstadoCivils { get; set; }
+        public DbSet<EstadoCivil> EstadosCivis { get; set; }
     }
 }
