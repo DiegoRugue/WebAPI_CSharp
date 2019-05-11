@@ -160,3 +160,51 @@ BEGIN
 	WHERE Id = @Id
 END
 
+GO
+
+CREATE PROCEDURE GetParentesco
+	@Id INT
+AS
+BEGIN
+	SELECT * FROM Parentesco WHERE Id = @Id;
+END
+
+GO
+
+CREATE PROCEDURE GetParentescos
+AS
+BEGIN
+	SELECT * FROM Parentesco;
+END
+
+GO
+
+CREATE PROCEDURE PostParentesco
+	@Nome VARCHAR(20)
+AS
+BEGIN
+	INSERT INTO Parentesco(Nome) VALUES (@Nome);
+END
+
+GO
+
+CREATE PROCEDURE PutParentesco
+	@Id INT,
+	@Nome VARCHAR(20)
+AS
+BEGIN
+	UPDATE Parentesco
+		SET Nome = @Nome
+	WHERE Id = @Id
+END
+
+GO
+
+CREATE PROCEDURE DeleteParentesco
+	@Id INT
+AS
+BEGIN
+	DELETE FROM Parentesco
+	WHERE Id = @Id
+END
+

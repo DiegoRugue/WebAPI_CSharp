@@ -33,7 +33,9 @@ namespace WebAPI
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connection)
             );
+
             services.AddTransient<IEstadoCivilRepository, EstadoCivilRepository>();
+            services.AddTransient<IParentescoRepository, ParentescoRepository>();
 
         }
 
