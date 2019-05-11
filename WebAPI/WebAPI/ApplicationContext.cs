@@ -12,5 +12,7 @@ namespace WebAPI
         public DbSet<EstadoCivil> EstadosCivis { get; set; }
         public DbSet<Parentesco> Parentescos { get; set; }
         public DbSet<Profissao> Profissoes { get; set; }
+        public DbSet<Empresa> Empresas { get; set; }
+
     }
 }

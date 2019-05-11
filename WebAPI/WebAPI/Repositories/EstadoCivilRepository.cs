@@ -16,7 +16,7 @@ namespace WebAPI.Repositories
                 var Id = new SqlParameter("@Id", id);
                 var estadoCivil = contexto.EstadosCivis
                     .FromSql("EXEC GetEstadoCivil @Id", parameters: Id)
-                    .FirstOrDefault<EstadoCivil>();
+                    .FirstOrDefault();
                 return estadoCivil;
             }
         }

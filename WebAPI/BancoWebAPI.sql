@@ -45,7 +45,7 @@ CREATE TABLE Empresa
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	RazaoSocial VARCHAR(50) NOT NULL,
 	DataCadastro DATETIME NOT NULL,
-	DataAlteracao DATETIME NOT NULL,
+	DataAlteracao VARCHAR(20) NULL,
 	CNPJ VARCHAR(20) NOT NULL
 );
 
@@ -147,7 +147,7 @@ AS
 BEGIN
 	UPDATE EstadoCivil
 		SET Nome = @Nome
-	WHERE Id = @Id
+		WHERE Id = @Id
 END
 
 GO
@@ -195,7 +195,7 @@ AS
 BEGIN
 	UPDATE Parentesco
 		SET Nome = @Nome
-	WHERE Id = @Id
+		WHERE Id = @Id
 END
 
 GO
@@ -260,3 +260,63 @@ BEGIN
 	DELETE FROM Profissao
 	WHERE Id = @Id
 END
+
+GO
+
+CREATE PROCEDURE GetEmpresa
+	@Id INT
+AS
+BEGIN
+	SELECT * FROM Empresa WHERE Id = @Id
+END
+
+GO
+
+CREATE PROCEDURE GetEmpresas
+AS
+BEGIN
+	SELECT * FROM Empresa
+END
+
+GO
+
+CREATE PROCEDURE PostEmpresa
+	@RazaoSocial VARCHAR(50),
+	@DataCadastro DATETIME,
+	@DataAlteracao VARCHAR(20),
+	@CNPJ VARCHAR(20)
+AS
+BEGIN
+	INSERT INTO Empresa(RazaoSocial, DataCadastro, DataAlteracao, CNPJ)
+				VALUES (@RazaoSocial, @DataCadastro, @DataAlteracao, @CNPJ)
+END
+
+GO 
+
+CREATE PROCEDURE PutEmpresa
+	@Id INT,
+	@RazaoSocial VARCHAR(50),
+	@DataAlteracao VARCHAR(20),
+	@CNPJ VARCHAR(20)
+AS
+BEGIN
+	UPDATE Empresa
+		SET 
+			RazaoSocial = @RazaoSocial,
+			DataAlteracao = @DataAlteracao,
+			CNPJ = @CNPJ
+		WHERE Id = @Id
+END
+
+GO
+
+CREATE PROCEDURE DeleteEmpresa
+	@Id INT
+AS
+BEGIN
+	DELETE FROM Empresa
+	WHERE Id = @Id
+END
+
+
+

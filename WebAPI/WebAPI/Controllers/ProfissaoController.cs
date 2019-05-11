@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
             _repository.Post(profissao);
         }
 
-        // PUT: api/Profissao/5
+        // PUT: api/Profissao
         [HttpPut]
         public void Put([FromBody] Profissao profissao)
         {

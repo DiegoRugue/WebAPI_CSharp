@@ -38,6 +38,7 @@ namespace WebAPI
             services.AddTransient<IEstadoCivilRepository, EstadoCivilRepository>();
             services.AddTransient<IParentescoRepository, ParentescoRepository>();
             services.AddTransient<IProfissaoRepository, ProfissaoRepository>();
+            services.AddTransient<IEmpresaRepository, EmpresaRepository>();
 
         }
 
