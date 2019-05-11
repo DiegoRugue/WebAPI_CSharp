@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Contracts;
 using WebAPI.Models;
-using WebAPI.Repositories;
 
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]

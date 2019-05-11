@@ -30,12 +30,12 @@ CREATE TABLE Parentesco
 
 GO
 
-CREATE TABLE Profissoes
+CREATE TABLE Profissao
 (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Nome VARCHAR(30) NOT NULL,
 	DataCadastro DATETIME NOT NULL,
-	DataAlteracao DATETIME NOT NULL
+	DataAlteracao VARCHAR(30) NULL
 );
 
 GO
@@ -67,7 +67,7 @@ CREATE TABLE Funcionarios
 	EnderecoEstado VARCHAR(30) NOT NULL,
 	EnderecoCep VARCHAR(20) NOT NULL,
 	EnderecoComplemento VARCHAR(100) NOT NULL,
-	IdProfissoes INT FOREIGN KEY REFERENCES Profissoes(Id),
+	IdProfissao INT FOREIGN KEY REFERENCES Profissao(Id),
 	IdEmpresa INT FOREIGN KEY REFERENCES Empresa(Id),
 	IdEstadoCivil INT FOREIGN KEY REFERENCES EstadoCivil(Id)
 );
@@ -208,3 +208,55 @@ BEGIN
 	WHERE Id = @Id
 END
 
+GO
+
+CREATE PROCEDURE GetProfissao
+	@Id INT
+AS
+BEGIN
+	SELECT * FROM Profissao WHERE Id = @Id
+END
+
+GO
+
+CREATE PROCEDURE GetProfissoes
+AS
+BEGIN
+	SELECT * FROM Profissao
+END
+
+GO
+
+CREATE PROCEDURE PostProfissao
+	@Nome VARCHAR(30),
+	@DataCadastro DATETIME,
+	@DataAlteracao VARCHAR(30)
+AS
+BEGIN
+	INSERT INTO Profissao(Nome, DataCadastro, DataAlteracao) 
+				VALUES(@Nome, @DataCadastro, @DataAlteracao)
+END
+
+GO
+
+CREATE PROCEDURE PutProfissao
+	@Id INT,
+	@Nome VARCHAR(30),
+	@DataAlteracao DATETIME
+AS
+BEGIN
+	UPDATE Profissao
+		SET Nome = @Nome,
+			DataAlteracao = @DataAlteracao
+		WHERE Id = @Id
+END
+
+GO
+
+CREATE PROCEDURE DeleteProfissao
+	@Id INT
+AS
+BEGIN
+	DELETE FROM Profissao
+	WHERE Id = @Id
+END

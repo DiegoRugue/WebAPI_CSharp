@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
+using WebAPI.Contracts;
 using WebAPI.Models;
 
 namespace WebAPI.Repositories {
@@ -14,43 +13,43 @@ namespace WebAPI.Repositories {
        public Parentesco Get(int id) {
             using (contexto) {
                 var Id = new SqlParameter("@Id", id);
-                var Parentesco = contexto.Parentescos
+                var parentesco = contexto.Parentescos
                     .FromSql("EXEC GetParentesco @Id", parameters: Id)
-                    .FirstOrDefault<Parentesco>();
-                return Parentesco;
+                    .FirstOrDefault();
+                return parentesco;
             }
         }
 
         public List<Parentesco> GetAll() {
             using (contexto) {
-                var Parentescos = contexto.Parentescos
+                var parentescos = contexto.Parentescos
                     .FromSql("EXEC GetParentescos")
                     .ToList();
-                return Parentescos;
+                return parentescos;
             }
         }
 
-        public void Post(Parentesco Parentesco) {
+        public void Post(Parentesco parentesco) {
             using (contexto) {
-                var parametro = new SqlParameter("@Nome", Parentesco.Nome);
+                var parametro = new SqlParameter("@Nome", parentesco.Nome);
                 var novoParentesco = contexto.Database
                     .ExecuteSqlCommand("EXEC PostParentesco @Nome", parametro);  
             }
         }
-        public void Put(Parentesco Parentesco) {
+        public void Put(Parentesco parentesco) {
             using (contexto) {
                 var parametros = new List<SqlParameter>();
-                parametros.Add(new SqlParameter("@Id", Parentesco.Id));
-                parametros.Add(new SqlParameter("@Nome", Parentesco.Nome));
+                parametros.Add(new SqlParameter("@Id", parentesco.Id));
+                parametros.Add(new SqlParameter("@Nome", parentesco.Nome));
 
-                var atualizaEstado = contexto.Database
+                var atualizaParentesco = contexto.Database
                     .ExecuteSqlCommand("EXEC PutParentesco @Id, @Nome", parametros);
             }
         }
         public void Delete(int id) {
             using (contexto) {
                 var pId = new SqlParameter("@Id", id);
-                var delEstado = contexto.Database
+                var delParentesco = contexto.Database
                     .ExecuteSqlCommand("EXEC DeleteParentesco @Id", pId);
             }
         }
