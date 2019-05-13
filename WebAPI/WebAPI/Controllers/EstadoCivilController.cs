@@ -30,26 +30,5 @@ namespace WebAPI.Controllers
         {
             return _repository.Get(id);
         }
-
-        // POST: api/EstadoCivil
-        [HttpPost]
-        public void Post([FromBody] EstadoCivil estadoCivil)
-        {
-            _repository.Post(estadoCivil);
-        }
-
-        // PUT: api/EstadoCivil
-        [HttpPut]
-        public void Put([FromBody] EstadoCivil estadoCivil)
-        {
-            _repository.Put(estadoCivil);
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _repository.Delete(id);
-        }
     }
 }

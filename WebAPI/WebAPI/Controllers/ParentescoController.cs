@@ -26,22 +26,5 @@ namespace WebAPI.Controllers {
             return _repository.Get(id);
         }
 
-        // POST: api/Parentesco
-        [HttpPost]
-        public void Post([FromBody] Parentesco parentesco) {
-            _repository.Post(parentesco);
-        }
-
-        // PUT: api/Parentesco
-        [HttpPut]
-        public void Put([FromBody] Parentesco parentesco) {
-            _repository.Put(parentesco);
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id) {
-            _repository.Delete(id);
-        }
     }
 }

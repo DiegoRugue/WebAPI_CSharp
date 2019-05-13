@@ -33,9 +33,9 @@ GO
 CREATE TABLE Profissao
 (
 	Id INT PRIMARY KEY IDENTITY(1,1),
-	Nome VARCHAR(30) NOT NULL,
-	DataCadastro DATETIME NOT NULL,
-	DataAlteracao VARCHAR(30) NULL
+	Nome VARCHAR(30) UNIQUE NOT NULL,
+	DataCadastro VARCHAR(20) NOT NULL,
+	DataAlteracao VARCHAR(20) NULL
 );
 
 GO
@@ -44,22 +44,22 @@ CREATE TABLE Empresa
 (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	RazaoSocial VARCHAR(50) NOT NULL,
-	DataCadastro DATETIME NOT NULL,
+	DataCadastro VARCHAR(20) NOT NULL,
 	DataAlteracao VARCHAR(20) NULL,
-	CNPJ VARCHAR(20) NOT NULL
+	CNPJ VARCHAR(20) UNIQUE NOT NULL
 );
 
 GO
 
-CREATE TABLE Funcionarios
+CREATE TABLE Funcionario
 (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Nome VARCHAR(50) NOT NULL,
-	CPF VARCHAR(15) NOT NULL,
-	DataNascimento DATETIME NOT NULL,
+	CPF VARCHAR(15) UNIQUE NOT NULL,
+	DataNascimento VARCHAR(20) NOT NULL,
 	Telefone VARCHAR(20) NOT NULL,
-	DataCadastro DATETIME NOT NULL,
-	DataAlteracao DATETIME NOT NULL,
+	DataCadastro VARCHAR(20) NOT NULL,
+	DataAlteracao VARCHAR(20) NULL,
 	EnderecoRua VARCHAR(50) NOT NULL,
 	EnderecoNumero INT NOT NULL,
 	EnderecoBairro VARCHAR(50) NOT NULL,
@@ -67,22 +67,22 @@ CREATE TABLE Funcionarios
 	EnderecoEstado VARCHAR(30) NOT NULL,
 	EnderecoCep VARCHAR(20) NOT NULL,
 	EnderecoComplemento VARCHAR(100) NOT NULL,
-	IdProfissao INT FOREIGN KEY REFERENCES Profissao(Id),
-	IdEmpresa INT FOREIGN KEY REFERENCES Empresa(Id),
-	IdEstadoCivil INT FOREIGN KEY REFERENCES EstadoCivil(Id)
+	IdProfissao INT FOREIGN KEY REFERENCES Profissao(Id) NOT NULL,
+	IdEmpresa INT FOREIGN KEY REFERENCES Empresa(Id) NOT NULL,
+	IdEstadoCivil INT FOREIGN KEY REFERENCES EstadoCivil(Id) NOT NULL
 );
 
 GO
 
-CREATE TABLE Dependentes
+CREATE TABLE Dependente
 (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Nome VARCHAR(50) NOT NULL,
-	CPF VARCHAR(15) NOT NULL,
-	DataNascimento DATETIME NOT NULL,
-	DataCadastro DATETIME NOT NULL,
-	DataAlteracao DATETIME NOT NULL,
-	IdFuncionario INT FOREIGN KEY REFERENCES Funcionarios(Id),
+	CPF VARCHAR(15) UNIQUE NOT NULL,
+	DataNascimento VARCHAR(20) NOT NULL,
+	DataCadastro VARCHAR(20) NOT NULL,
+	DataAlteracao VARCHAR(20) NULL,
+	IdFuncionario INT FOREIGN KEY REFERENCES Funcionario(Id) UNIQUE,
 	IdParentesco INT FOREIGN KEY REFERENCES Parentesco(Id)
 );
 
@@ -131,37 +131,6 @@ END
 
 GO
 
-CREATE PROCEDURE PostEstadoCivil
-	@Nome VARCHAR(20)
-AS
-BEGIN
-	INSERT INTO EstadoCivil(Nome) VALUES (@Nome);
-END
-
-GO
-
-CREATE PROCEDURE PutEstadoCivil
-	@Id INT,
-	@Nome VARCHAR(20)
-AS
-BEGIN
-	UPDATE EstadoCivil
-		SET Nome = @Nome
-		WHERE Id = @Id
-END
-
-GO
-
-CREATE PROCEDURE DeleteEstadoCivil
-	@Id INT
-AS
-BEGIN
-	DELETE FROM EstadoCivil
-	WHERE Id = @Id
-END
-
-GO
-
 CREATE PROCEDURE GetParentesco
 	@Id INT
 AS
@@ -175,37 +144,6 @@ CREATE PROCEDURE GetParentescos
 AS
 BEGIN
 	SELECT * FROM Parentesco;
-END
-
-GO
-
-CREATE PROCEDURE PostParentesco
-	@Nome VARCHAR(20)
-AS
-BEGIN
-	INSERT INTO Parentesco(Nome) VALUES (@Nome);
-END
-
-GO
-
-CREATE PROCEDURE PutParentesco
-	@Id INT,
-	@Nome VARCHAR(20)
-AS
-BEGIN
-	UPDATE Parentesco
-		SET Nome = @Nome
-		WHERE Id = @Id
-END
-
-GO
-
-CREATE PROCEDURE DeleteParentesco
-	@Id INT
-AS
-BEGIN
-	DELETE FROM Parentesco
-	WHERE Id = @Id
 END
 
 GO
@@ -229,7 +167,7 @@ GO
 
 CREATE PROCEDURE PostProfissao
 	@Nome VARCHAR(30),
-	@DataCadastro DATETIME,
+	@DataCadastro VARCHAR(20),
 	@DataAlteracao VARCHAR(30)
 AS
 BEGIN
@@ -242,7 +180,7 @@ GO
 CREATE PROCEDURE PutProfissao
 	@Id INT,
 	@Nome VARCHAR(30),
-	@DataAlteracao DATETIME
+	@DataAlteracao VARCHAR(20)
 AS
 BEGIN
 	UPDATE Profissao
@@ -282,7 +220,7 @@ GO
 
 CREATE PROCEDURE PostEmpresa
 	@RazaoSocial VARCHAR(50),
-	@DataCadastro DATETIME,
+	@DataCadastro VARCHAR(20),
 	@DataAlteracao VARCHAR(20),
 	@CNPJ VARCHAR(20)
 AS
@@ -318,5 +256,195 @@ BEGIN
 	WHERE Id = @Id
 END
 
+GO
 
+CREATE PROCEDURE GetFuncionario
+	@Id INT
+AS
+BEGIN
+	SELECT * FROM Funcionario WHERE Id = @Id
+END
 
+GO
+
+CREATE PROCEDURE GetFuncionarios
+AS
+BEGIN
+	SELECT * FROM Funcionario
+END
+
+GO
+
+CREATE PROCEDURE PostFuncionario
+	@Nome VARCHAR(50),
+	@CPF VARCHAR(15),
+	@DataNascimento VARCHAR(20),
+	@Telefone VARCHAR(20),
+	@DataCadastro VARCHAR(20),
+	@DataAlteracao VARCHAR(20),
+	@EnderecoRua VARCHAR(50),
+	@EnderecoNumero INT,
+	@EnderecoBairro VARCHAR(50),
+	@EnderecoCidade VARCHAR(30),
+	@EnderecoEstado VARCHAR(30),
+	@EnderecoCep VARCHAR(20),
+	@EnderecoComplemento VARCHAR(100),
+	@IdProfissao INT,
+	@IdEmpresa INT,
+	@IdEstadoCivil INT
+AS
+BEGIN
+	INSERT INTO Funcionario
+	(
+		Nome, CPF, DataNascimento, Telefone, DataCadastro, 
+		DataAlteracao, EnderecoRua, EnderecoNumero, EnderecoBairro, EnderecoCidade, 
+		EnderecoEstado, EnderecoCep, EnderecoComplemento, IdProfissao, IdEmpresa, IdEstadoCivil
+	)
+
+	VALUES
+	(
+		@Nome, @CPF, @DataNascimento, @Telefone, @DataCadastro, 
+		@DataAlteracao, @EnderecoRua, @EnderecoNumero, @EnderecoBairro, @EnderecoCidade, 
+		@EnderecoEstado, @EnderecoCep, @EnderecoComplemento, @IdProfissao, @IdEmpresa, @IdEstadoCivil
+	)
+END
+
+GO
+
+CREATE PROCEDURE PutFuncionario
+	@Id INT,
+	@Nome VARCHAR(50),
+	@CPF VARCHAR(15),
+	@DataNascimento VARCHAR(20),
+	@Telefone VARCHAR(20),
+	@DataAlteracao VARCHAR(20),
+	@EnderecoRua VARCHAR(50),
+	@EnderecoNumero INT,
+	@EnderecoBairro VARCHAR(50),
+	@EnderecoCidade VARCHAR(30),
+	@EnderecoEstado VARCHAR(30),
+	@EnderecoCep VARCHAR(20),
+	@EnderecoComplemento VARCHAR(100),
+	@IdProfissao INT,
+	@IdEmpresa INT,
+	@IdEstadoCivil INT
+AS
+BEGIN
+	UPDATE Funcionario
+		SET 
+			Nome = @Nome,
+			CPF = @CPF,
+			DataNascimento = @DataNascimento,
+			Telefone = @Telefone,
+			DataAlteracao = @DataAlteracao,
+			EnderecoRua = @EnderecoRua,
+			EnderecoNumero = @EnderecoNumero,
+			EnderecoBairro = @EnderecoBairro,
+			EnderecoCidade = @EnderecoCidade,
+			EnderecoEstado = @EnderecoEstado,
+			EnderecoCep = @EnderecoCep,
+			EnderecoComplemento = @EnderecoComplemento,
+			IdProfissao = @IdProfissao,
+			IdEmpresa = @IdEmpresa,
+			IdEstadoCivil = @IdEstadoCivil
+
+	WHERE Id = @Id
+
+END
+
+GO
+
+CREATE PROCEDURE DeleteFuncionario
+	@Id INT
+AS
+BEGIN
+	DELETE FROM Funcionario
+	WHERE Id = @Id
+END
+
+GO
+
+CREATE PROCEDURE GetDependente
+	@Id INT
+AS
+BEGIN
+	SELECT * FROM Dependente WHERE Id = @Id
+END
+
+GO
+
+CREATE PROCEDURE GetDependentes
+AS
+BEGIN
+	SELECT * FROM Dependente
+END
+
+GO
+
+CREATE PROCEDURE PostDependente
+	@Nome VARCHAR(50),
+	@CPF VARCHAR(15),
+	@DataNascimento VARCHAR(20),
+	@DataCadastro VARCHAR(20),
+	@DataAlteracao VARCHAR(20),
+	@IdFuncionario INT,
+	@IdParentesco INT
+AS
+BEGIN
+	INSERT INTO Dependente
+	(
+		Nome,
+		CPF,
+		DataNascimento,
+		DataCadastro,
+		DataAlteracao,
+		IdFuncionario,
+		IdParentesco
+	)
+	VALUES
+	(
+		@Nome,
+		@CPF,
+		@DataNascimento,
+		@DataCadastro,
+		@DataAlteracao,
+		@IdFuncionario,
+		@IdParentesco
+	)
+
+END
+
+GO
+
+CREATE PROCEDURE PutDependente
+	@Id INT,
+	@Nome VARCHAR(50),
+	@CPF VARCHAR(15),
+	@DataNascimento VARCHAR(20),
+	@DataCadastro VARCHAR(20),
+	@DataAlteracao VARCHAR(20),
+	@IdFuncionario INT,
+	@IdParentesco INT
+AS
+BEGIN
+	UPDATE Dependente
+		SET
+			Nome = @Nome,
+			CPF = @CPF,
+			DataNascimento = @DataNascimento,
+			DataCadastro = @DataCadastro,
+			DataAlteracao = @DataAlteracao,
+			IdFuncionario = @IdFuncionario,
+			IdParentesco = @IdParentesco
+		WHERE Id = @Id
+
+END
+
+GO
+
+CREATE PROCEDURE DeleteDependente
+	@Id INT
+AS
+BEGIN
+	DELETE FROM Dependente WHERE Id = @Id
+END

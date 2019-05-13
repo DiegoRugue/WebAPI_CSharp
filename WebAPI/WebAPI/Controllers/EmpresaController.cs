@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public void Post([FromBody] Empresa empresa)
         {
-            _repository.Post(empresa);
+           _repository.Post(empresa);
         }
 
         // PUT: api/Empresa

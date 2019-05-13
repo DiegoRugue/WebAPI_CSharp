@@ -28,31 +28,5 @@ namespace WebAPI.Repositories {
                 return parentescos;
             }
         }
-
-        public void Post(Parentesco parentesco) {
-            using (contexto) {
-                var parametro = new SqlParameter("@Nome", parentesco.Nome);
-                var novoParentesco = contexto.Database
-                    .ExecuteSqlCommand("EXEC PostParentesco @Nome", parametro);  
-            }
-        }
-        public void Put(Parentesco parentesco) {
-            using (contexto) {
-                var parametros = new List<SqlParameter>();
-                parametros.Add(new SqlParameter("@Id", parentesco.Id));
-                parametros.Add(new SqlParameter("@Nome", parentesco.Nome));
-
-                var atualizaParentesco = contexto.Database
-                    .ExecuteSqlCommand("EXEC PutParentesco @Id, @Nome", parametros);
-            }
-        }
-        public void Delete(int id) {
-            using (contexto) {
-                var pId = new SqlParameter("@Id", id);
-                var delParentesco = contexto.Database
-                    .ExecuteSqlCommand("EXEC DeleteParentesco @Id", pId);
-            }
-        }
-
     }
 }

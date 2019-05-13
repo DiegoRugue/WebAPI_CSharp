@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
 using WebAPI.Contracts;
 using WebAPI.Models;
 
@@ -33,16 +32,19 @@ namespace WebAPI.Repositories {
 
         public void Post(Empresa empresa) {
             using (contexto) {
-                empresa.DataCadastro = DateTime.Now;
+                empresa.DataCadastro = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.fff");
                 empresa.DataAlteracao = "";
                 var parametros = new List<SqlParameter>();
                 parametros.Add(new SqlParameter("@RazaoSocial", empresa.RazaoSocial));
                 parametros.Add(new SqlParameter("@DataCadastro", empresa.DataCadastro));
                 parametros.Add(new SqlParameter("@DataAlteracao", empresa.DataAlteracao));
                 parametros.Add(new SqlParameter("@CNPJ", empresa.CNPJ));
-                var novaEmpresa = contexto.Database
-                    .ExecuteSqlCommand("EXEC PostEmpresa @RazaoSocial, @DataCadastro, @DataAlteracao, @CNPJ", parametros);
-            }
+                contexto.Database.ExecuteSqlCommand("EXEC PostEmpresa @RazaoSocial, @DataCadastro, " +
+                    "@DataAlteracao, @CNPJ", parametros);
+                    
+                }
+            
+            
         }
 
         public void Put(Empresa empresa) {
@@ -53,16 +55,15 @@ namespace WebAPI.Repositories {
                 parametros.Add(new SqlParameter("@RazaoSocial", empresa.RazaoSocial));
                 parametros.Add(new SqlParameter("@DataAlteracao", empresa.DataAlteracao));
                 parametros.Add(new SqlParameter("@CNPJ", empresa.CNPJ));
-                var attEmpresa = contexto.Database
-                    .ExecuteSqlCommand("EXEC PutEmpresa @Id, @RazaoSocial, @DataAlteracao, @CNPJ", parametros);
+                contexto.Database.ExecuteSqlCommand("EXEC PutEmpresa @Id, @RazaoSocial, " +
+                    "@DataAlteracao, @CNPJ", parametros);
             }
         }
 
         public void Delete(int id) {
             using (contexto) {
                 var pId = new SqlParameter("@Id", id);
-                var delEmpresa = contexto.Database
-                    .ExecuteSqlCommand("EXEC DeleteEmpresa @Id", pId);
+                contexto.Database.ExecuteSqlCommand("EXEC DeleteEmpresa @Id", pId);
             }
         }
     }

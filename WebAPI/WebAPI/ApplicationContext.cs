@@ -13,6 +13,8 @@ namespace WebAPI
         public DbSet<Parentesco> Parentescos { get; set; }
         public DbSet<Profissao> Profissoes { get; set; }
         public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<Funcionario> Funcionarios { get; set; }
+        public DbSet<Dependente> Dependentes { get; set; }
 
     }
 }
