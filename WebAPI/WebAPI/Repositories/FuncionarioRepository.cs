@@ -11,14 +11,28 @@ namespace WebAPI.Repositories {
         public FuncionarioRepository(ApplicationContext context) : base(context) {
         }
 
-        public Funcionario Get(int id) {
+        public string Get(int id) {
             using (contexto) {
+                string result = "";
                 var Id = new SqlParameter("@Id", id);
                 var funcionario = contexto.Funcionarios
                     .FromSql("EXEC GetFuncionario @Id", parameters: Id)
                     .FirstOrDefault();
-                return funcionario;
+                result = funcionario.ToString();
+
+                var dependentes = contexto.Dependentes
+                    .FromSql("EXEC GetDependentes")
+                    .ToList();
+
+                foreach (Dependente d in dependentes) {
+                    if (d.IdFuncionario == id) {
+                        result += d.ToString();
+                    }
+                }
+
+                return result;
             }
+
         }
 
         public List<Funcionario> GetAll() {

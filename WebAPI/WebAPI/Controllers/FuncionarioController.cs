@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
 
         // GET: api/Funcionario/5
         [HttpGet("{id}")]
-        public Funcionario Get(int id)
+        public string Get(int id)
         {
             return _repository.Get(id);
         }
@@ -33,21 +33,33 @@ namespace WebAPI.Controllers
         [HttpPost]
         public void Post([FromBody] Funcionario funcionario)
         {
-            _repository.Post(funcionario);
+            try {
+                _repository.Post(funcionario);
+            } catch {
+                HttpContext.Response.StatusCode = 400;
+            }
         }
 
         // PUT: api/Funcionario
         [HttpPut("{id}")]
         public void Put([FromBody] Funcionario funcionario)
         {
-            _repository.Put(funcionario);
+            try {
+                _repository.Put(funcionario);
+            } catch {
+                HttpContext.Response.StatusCode = 400;
+            }
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _repository.Delete(id);
+            try {
+                _repository.Delete(id);
+            } catch {
+                HttpContext.Response.StatusCode = 400;
+            }
         }
     }
 }

@@ -20,5 +20,30 @@
         public string EnderecoCep { get; set; }
         public string EnderecoComplemento { get; set; }
 
+        public override string ToString() {
+            string toString;
+
+            toString = "Funcionario: { \n" +
+                       "  Id: " + Id + "\n" +
+                       "  Nome:" + Nome + "\n" +
+                       "  CPF:" + CPF + "\n" +
+                       "  DataNascimento:" + DataNascimento + "\n" +
+                       "  IdProfissao:" + IdProfissao + "\n" +
+                       "  Telefone:" + Telefone + "\n" +
+                       "  IdEmpresa:" + IdEmpresa + "\n" +
+                       "  IdEstadoCivil:" + IdEstadoCivil + "\n" +
+                       "  EnderecoRua:" + EnderecoRua + "\n" +
+                       "  EnderecoNumero:" + EnderecoNumero + "\n" +
+                       "  EnderecoBairro:" + EnderecoBairro + "\n" +
+                       "  EnderecoCidade:" + EnderecoCidade + "\n" +
+                       "  EnderecoEstado:" + EnderecoEstado + "\n" +
+                       "  EnderecoCep:" + EnderecoCep + "\n" +
+                       "  EnderecoComplemento:" + EnderecoComplemento + "\n" +
+                       "  DataCadastro:" + DataCadastro + "\n" +
+                       "  DataAlteracao:" + DataAlteracao + "\n" +
+                       "} \n";
+
+            return toString;
+        }
     }
 }

@@ -3,7 +3,7 @@ using WebAPI.Models;
 
 namespace WebAPI.Contracts {
     public interface IFuncionarioRepository {
-        Funcionario Get(int id);
+        string Get(int id);
         List<Funcionario> GetAll();
         void Post(Funcionario funcionario);
         void Put(Funcionario funcionario);

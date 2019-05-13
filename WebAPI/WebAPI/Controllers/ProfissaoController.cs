@@ -32,21 +32,33 @@ namespace WebAPI.Controllers
         [HttpPost]
         public void Post([FromBody] Profissao profissao)
         {
-            _repository.Post(profissao);
+            try {
+                _repository.Post(profissao);
+            } catch {
+                HttpContext.Response.StatusCode = 400;
+            }
         }
 
         // PUT: api/Profissao
         [HttpPut]
         public void Put([FromBody] Profissao profissao)
         {
-            _repository.Put(profissao);
+            try {
+                _repository.Put(profissao);
+            } catch {
+                HttpContext.Response.StatusCode = 400;
+            }
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _repository.Delete(id);
+            try {
+                _repository.Delete(id);
+            } catch {
+                HttpContext.Response.StatusCode = 400;
+            }
         }
     }
 }

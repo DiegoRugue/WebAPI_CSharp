@@ -32,21 +32,33 @@ namespace WebAPI.Controllers
         [HttpPost]
         public void Post([FromBody] Dependente dependente)
         {
-            _repository.Post(dependente);
+            try {
+                _repository.Post(dependente);
+            } catch {
+                HttpContext.Response.StatusCode = 400;
+            }
         }
 
         // PUT: api/Dependente/5
         [HttpPut("{id}")]
         public void Put([FromBody] Dependente dependente)
         {
-            _repository.Put(dependente);
+            try {
+                _repository.Put(dependente);
+            } catch {
+                HttpContext.Response.StatusCode = 400;
+            }
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _repository.Delete(id);
+            try {
+                _repository.Delete(id);
+            } catch {
+                HttpContext.Response.StatusCode = 400;
+            }
         }
     }
 }

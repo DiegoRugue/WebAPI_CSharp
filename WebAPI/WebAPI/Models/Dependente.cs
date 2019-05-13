@@ -11,5 +11,20 @@
         public int IdFuncionario { get; set; }
         public int IdParentesco { get; set; }
 
+        public override string ToString() {
+            string toString;
+
+            toString = "Dependente: { \n" +
+                       "  Id: " + Id + "\n" +
+                       "  Nome:" + Nome + "\n" +
+                       "  CPF:" + CPF + "\n" +
+                       "  DataNascimento:" + DataNascimento + "\n" +
+                       "  IdParentesco:" + IdParentesco + "\n" +
+                       "  DataCadastro:" + DataCadastro + "\n" +
+                       "  DataAlteracao:" + DataAlteracao + "\n" +
+                       "} \n";
+
+            return toString;
+        }
     }
 }
